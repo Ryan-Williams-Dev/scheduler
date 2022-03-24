@@ -4,9 +4,11 @@ export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
   const [history, setHistory] = useState([initial])
 
-  const transition = (newMode) => {
+  const transition = (newMode, replace = false) => {
+    let result = history;
     setMode(newMode);
-    setHistory([...history, newMode]);
+    if (replace === true) result = [...history.slice(0, history.length - 1)]
+    setHistory([...result, newMode]);
   }
 
   const back = () => {

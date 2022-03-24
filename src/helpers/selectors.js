@@ -14,3 +14,11 @@ export function getInterview(state, interview) {
     interviewer
   }
 }
+
+export function getInterviewersForDay(state, day) {
+  const [currDay] = state.days.filter((item) => item.name === day)
+  if (!currDay) return [];
+  const daysInterviewers = currDay.interviewers;
+  return Object.values(state.interviewers)
+    .filter(item => daysInterviewers.includes(item.id))
+}
