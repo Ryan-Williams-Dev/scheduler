@@ -5,3 +5,12 @@ export function getAppointmentsForDay(state, day) {
   return Object.values(state.appointments)
     .filter(item => daysAppointments.includes(item.id))
 }
+
+export function getInterview(state, interview) {
+  if(!interview) return null;
+  const interviewer = state.interviewers[interview.interviewer]
+  return {
+    student: interview.student,
+    interviewer
+  }
+}
