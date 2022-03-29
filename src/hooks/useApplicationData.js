@@ -25,8 +25,9 @@ export default function useApplicationData() {
     .then(() => {
       setState({
       ...state,
-      appointments
-      });
+      appointments,
+      days: updateSpots(state, appointments, id)
+      })
     })
     .catch(err => {
       console.log(err)
@@ -47,7 +48,8 @@ export default function useApplicationData() {
     .then((res) => {
       setState({
         ...state,
-        appointments
+        appointments,
+        days: updateSpots(state, appointments, id)
       });
       return res;
     })
@@ -56,6 +58,17 @@ export default function useApplicationData() {
       throw err;
     });
   }
+
+  const updateSpots = function(state, appointments, id) {  
+    const changedDay = state.days.filter(item => item.appointments.includes(id))[0]
+    
+    const changedDaysSpots = Object.values(appointments).filter(item => !item.interview)
+      .filter(item => changedDay.appointments.includes(item.id)).length
+    
+    return state.days.map((day) => {
+      return day.id === changedDay.id ? {...changedDay, spots: changedDaysSpots} : { ...day };
+    });
+  };
   
   
   useEffect(() => {
@@ -75,6 +88,7 @@ export default function useApplicationData() {
     state,
     setDay,
     bookInterview,
-    cancelInterview
+    cancelInterview,
+    updateSpots
   }
 }
