@@ -18,7 +18,53 @@ export default function Application(props) {
   
   const setDay = day => setState({ ...state, day });
   // const setDays = days => setState((prev) => ({...prev, days}))
+
+  const bookInterview = function(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return axios.put(`/api/appointments/${id}`, {interview: interview})
+    .then(() => {
+      setState({
+      ...state,
+      appointments
+      });
+    })
+    .catch(err => {
+      console.log(err)
+      throw err;
+    })
+  }
+
+  const cancelInterview = function(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    }
+    const appointments = {
+      ...state.appointments,
+      [id]:appointment
+    }
+    return axios.delete(`/api/appointments/${id}`)
+    .then((res) => {
+      setState({
+        ...state,
+        appointments
+      });
+      return res;
+    })
+    .catch(err => {
+      console.log("app catch block: ", err)
+      throw err;
+    });
+  }
   
+
   useEffect(() => {
     Promise.all([
       axios.get("/api/days"),
@@ -45,6 +91,8 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={dailyInterviewers}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
