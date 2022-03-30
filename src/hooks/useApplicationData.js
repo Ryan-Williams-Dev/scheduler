@@ -3,6 +3,13 @@ import axios from "axios";
 
 import { SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW, reducer } from "reducers/appDataReducer";
 
+const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL || "ws://localhost:8001");
+  socket.onopen = () => {
+    console.log("Web socket opened");
+    socket.send("ping");
+  };
+
+
 export default function useApplicationData() {
   
   const [state, dispatch] = useReducer(reducer, {
@@ -62,12 +69,6 @@ export default function useApplicationData() {
       throw err;
     });
   }
-
-  const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
-  socket.onopen = () => {
-    console.log("Web socket opened");
-    socket.send("ping");
-  };
 
   socket.onmessage = (event => {
     const data = JSON.parse(event.data);
