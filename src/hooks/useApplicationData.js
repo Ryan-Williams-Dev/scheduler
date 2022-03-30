@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from "react";
 import axios from "axios";
 
-import { ACTIONS, reducer } from "reducers/appDataReducer";
+import { SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW, reducer } from "reducers/appDataReducer";
 
 export default function useApplicationData() {
   
@@ -22,7 +22,7 @@ export default function useApplicationData() {
       const [days, appointments, interviewers] = all;
       dispatch(
         {
-          type: ACTIONS.SET_APPLICATION_DATA,
+          type: SET_APPLICATION_DATA,
           days: days.data, 
           appointments: appointments.data, 
           interviewers: interviewers.data 
@@ -31,13 +31,13 @@ export default function useApplicationData() {
     })
   },[])
 
-  const setDay = day => dispatch({ type: ACTIONS.SET_DAY, day });
+  const setDay = day => dispatch({ type: SET_DAY, day });
   
   const bookInterview = function(id, interview) {
     return axios.put(`/api/appointments/${id}`, {interview})
     .then(() => {
       dispatch({
-        type: ACTIONS.SET_INTERVIEW,
+        type: SET_INTERVIEW,
         id,
         interview
       })
@@ -52,7 +52,7 @@ export default function useApplicationData() {
     return axios.delete(`/api/appointments/${id}`)
     .then((res) => {
       dispatch({
-        type: ACTIONS.SET_INTERVIEW,
+        type: SET_INTERVIEW,
         id,
         interview: null
       });
@@ -62,6 +62,23 @@ export default function useApplicationData() {
       throw err;
     });
   }
+
+  const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+  socket.onopen = () => {
+    console.log("Web socket opened");
+    socket.send("ping");
+  };
+
+  socket.onmessage = (event => {
+    const data = JSON.parse(event.data);
+    if (data === 'pong') return;
+
+    dispatch({
+      type: data.type,
+      id: data.id,
+      interview: data.interview
+    })
+  })
   
   return {
     state,
