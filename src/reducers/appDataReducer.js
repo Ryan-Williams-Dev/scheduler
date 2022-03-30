@@ -1,0 +1,68 @@
+export const ACTIONS = {
+  SET_DAY: "SET_DAY",
+  SET_APPLICATION_DATA: "SET_APPLICATION_DATA",
+  SET_INTERVIEW: "SET_INTERVIEW"
+}
+
+
+export function reducer(state, action) {
+  switch (action.type) {
+    case ACTIONS.SET_DAY:
+      return { 
+        ...state,
+        day: action.day
+      }
+    case ACTIONS.SET_APPLICATION_DATA:
+      return {
+          ...state,
+          days: action.days,
+          appointments: action.appointments,
+          interviewers: action.interviewers
+        }
+    case ACTIONS.SET_INTERVIEW: {
+      const newState = {
+        ...state,
+        appointments: {
+          ...state.appointments,
+          [action.id]: {
+            ...state.appointments[action.id],
+            interview: action.interview
+          }
+        }
+      };
+      return {
+        ...newState,
+        days: state.days.map(day => ({
+          ...day,
+          spots:newSpots(newState, day.id)
+        }))
+      }
+    }
+    default:
+      throw new Error(
+        `Tried to reduce with unsupported action type: ${action.type}`
+      );
+  }
+}
+
+
+const newSpots = function (state, id) {
+  const currDay = state.days.find(day => day.id === id);
+  const newSpots = currDay.appointments.reduce((a, b) => {
+    return state.appointments[b].interview ? a : a + 1;
+  }, 0);
+  return newSpots;
+}
+
+// const updateSpots = function(state, appointments, id) {  
+//   const changedDay = state.days.filter(day => day.appointments.includes(id))[0]
+  
+//   const changedDaysSpots = Object.values(appointments).filter(appointment => !appointment.interview)
+//     .filter(nulledAppointment => changedDay.appointments.includes(nulledAppointment.id)).length
+  
+//   return state.days.map((day) => {
+//     return day.id === changedDay.id ? 
+//     {...changedDay, spots: changedDaysSpots} :
+//     { ...day };
+//   });
+// };
