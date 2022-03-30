@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, cleanup, fireEvent, getByText, queryByText } from "@testing-library/react";
+import { render, cleanup, fireEvent, getByText, queryByText, getByTestId } from "@testing-library/react";
 
 import Form from "components/Appointment/Form";
 
@@ -45,7 +45,7 @@ describe("Form", () => {
     const { getByText, getByPlaceholderText, queryByText } = render(
       <Form interviewers={interviewers} onSave={onSave} />
     );
-  
+    
     fireEvent.click(getByText("Save"));
   
     expect(getByText(/student name cannot be blank/i)).toBeInTheDocument();

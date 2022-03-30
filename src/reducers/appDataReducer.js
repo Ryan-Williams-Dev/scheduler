@@ -52,14 +52,14 @@ const updateSpots = function (state, id) {
 }
 
 // const updateSpots = function(state, appointments, id) {  
-//   const changedDay = state.days.filter(day => day.appointments.includes(id))[0]
+//   const currDay = state.days.find(day => day.name === state.day)
   
-//   const changedDaysSpots = Object.values(appointments).filter(appointment => !appointment.interview)
-//     .filter(nulledAppointment => changedDay.appointments.includes(nulledAppointment.id)).length
+//   const currDaySpots = Object.values(appointments)
+//     .filter(appointment => !appointment.interview && currDay.appointments.includes(appointment.id))
+//     .length
   
 //   return state.days.map((day) => {
-//     return day.id === changedDay.id ? 
-//     {...changedDay, spots: changedDaysSpots} :
-//     { ...day };
+//     return day.id === currDay.id ? {...day, spots: currDaySpots} : day;
 //   });
 // };
+
