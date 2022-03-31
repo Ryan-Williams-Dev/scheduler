@@ -51,6 +51,9 @@ const updateSpots = function (state, id) {
   return newSpots;
 }
 
+
+/* <===  My old logic for the update spots function, before the useReducer refactor ===> */ 
+
 // const updateSpots = function(state, appointments, id) {  
 //   const currDay = state.days.find(day => day.name === state.day)
   

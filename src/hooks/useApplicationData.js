@@ -50,7 +50,6 @@ export default function useApplicationData() {
       })
     })
     .catch(err => {
-      console.log(err)
       throw err;
     })
   }
@@ -65,7 +64,6 @@ export default function useApplicationData() {
       });
     })
     .catch(err => {
-      console.log("app catch block: ", err)
       throw err;
     });
   }

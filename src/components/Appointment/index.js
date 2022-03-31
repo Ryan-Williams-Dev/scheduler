@@ -54,7 +54,7 @@ export default function Appointment(props) {
       transition(EMPTY)
     })
     .catch(err => {
-      console.log('from the index file :', err)
+      console.log(err)
       transition(ERROR_DELETE, true)
     })
   }
