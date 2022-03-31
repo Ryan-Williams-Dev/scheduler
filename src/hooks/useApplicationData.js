@@ -40,20 +40,20 @@ export default function useApplicationData() {
 
   const setDay = day => dispatch({ type: SET_DAY, day });
   
-  // const bookInterview = function(id, interview) {
-  //   return axios.put(`/api/appointments/${id}`, {interview})
-  //   .then(() => {
-  //     dispatch({
-  //       type: SET_INTERVIEW,
-  //       id,
-  //       interview
-  //     })
-  //   })
-  //   .catch(err => {
-  //     console.log(err)
-  //     throw err;
-  //   })
-  // }
+  const bookInterview = function(id, interview) {
+    return axios.put(`/api/appointments/${id}`, {interview})
+    .then(() => {
+      dispatch({
+        type: SET_INTERVIEW,
+        id,
+        interview
+      })
+    })
+    .catch(err => {
+      console.log(err)
+      throw err;
+    })
+  }
   
   const cancelInterview = function(id) {
     return axios.delete(`/api/appointments/${id}`)
