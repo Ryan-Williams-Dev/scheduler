@@ -1,8 +1,13 @@
 import { useEffect, useReducer } from "react";
 import axios from "axios";
-import { socket } from "index";
 
 import { SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW, reducer } from "reducers/appDataReducer";
+
+const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL); // jest will not pick up the env variable, I can't figure out why. So I needed this for testing to work.
+  socket.onopen = () => {
+  // console.log("Web socket opened");
+  // socket.send("ping");
+  };
 
 
 export default function useApplicationData() {
