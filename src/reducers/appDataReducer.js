@@ -2,6 +2,7 @@ export const SET_DAY = "SET_DAY";
 export const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 export const SET_INTERVIEW = "SET_INTERVIEW"
 
+// Reducer function for updated state, dispatch to here with the appropriate variable from above to update state
 export function reducer(state, action) {
   switch (action.type) {
     case SET_DAY:
@@ -42,7 +43,7 @@ export function reducer(state, action) {
   }
 }
 
-
+// Takes in updated state and the current days ID to calculate the spots remaining for that day
 const updateSpots = function (state, id) {
   const currDay = state.days.find(day => day.id === id);
   const newSpots = currDay.appointments.reduce((a, b) => {
@@ -50,19 +51,3 @@ const updateSpots = function (state, id) {
   }, 0);
   return newSpots;
 }
-
-
-/* <===  My old logic for the update spots function, before the useReducer refactor ===> */ 
-
-// const updateSpots = function(state, appointments, id) {  
-//   const currDay = state.days.find(day => day.name === state.day)
-  
-//   const currDaySpots = Object.values(appointments)
-//     .filter(appointment => !appointment.interview && currDay.appointments.includes(appointment.id))
-//     .length
-  
-//   return state.days.map((day) => {
-//     return day.id === currDay.id ? {...day, spots: currDaySpots} : day;
-//   });
-// };
-
