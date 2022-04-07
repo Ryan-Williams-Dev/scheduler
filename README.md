@@ -27,9 +27,7 @@ git clone git@github.com:Zenophage/scheduler.git <directory_name>
 cd <directory_name>
 npm install
 ```
-```
 Make two copies of the `.env.example` file, one called `.env.development.local`, the other called `.env.test.local`
-```
 ```
 npm run start
 ```
